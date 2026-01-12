@@ -1,8 +1,8 @@
 ## Composer
 
-```.yml
+```.json
   "require": {
-    "dnadesign/silverstripe-elemental-responsivetable": "^1.0"
+    "dnadesign/silverstripe-elemental-responsivetable": "^1.1"
   },
   "repositories": [
     {
@@ -14,8 +14,8 @@
 
 ## Requirements
 
-Silverstripe 4.0
-Silverstripe Elemental 4.3
+Silverstripe 6.0+
+Silverstripe Elemental 6.0+
 
 ## Extending/Theming
 
