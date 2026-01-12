@@ -8,8 +8,8 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\TextField;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
-use SilverStripe\View\ArrayData;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\ArrayData;
+use SilverStripe\Model\List\ArrayList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 
@@ -90,9 +90,9 @@ class ElementResponsiveTable extends BaseElement
     #loop through row names
     foreach ($rows as $rowKey => $rowName) {
       #create new row
-      $row = new ArrayList();
+      $row = ArrayList::create();
       #push row name into new row
-      $row->push(new ArrayData(['Value' => $rowName->Name]));
+      $row->push(ArrayData::create(['Value' => $rowName->Name]));
 
       #loop through Columns
       foreach ($this->TableColumns()->sort('Sort') as $columnKey => $column) {
@@ -100,7 +100,7 @@ class ElementResponsiveTable extends BaseElement
         foreach ($column->TableCells()->sort('Sort') as $cellKey => $cellValue) {
           # only include cells that are with same index of row
           if ($cellKey === $rowKey) {
-            $row->push(new ArrayData(['Value' => $cellValue->Content, 'RowName' => $rowName->Name]));
+            $row->push(ArrayData::create(['Value' => $cellValue->Content, 'RowName' => $rowName->Name]));
           }
         }
       }
@@ -110,12 +110,12 @@ class ElementResponsiveTable extends BaseElement
       if ($columnCount > 0 && $cellDiff <= $columnCount) {
         if ($cellDiff > 0 && $row->count() > 1) {
           for ($i = 0; $i < $cellDiff; $i++) {
-            $row->push(new ArrayData(['Value' => '', 'RowName' => $rowName->Name]));
+            $row->push(ArrayData::create(['Value' => '', 'RowName' => $rowName->Name]));
           }
         }
       }
       if ($row->count() > 1) {
-        $table->push(new ArrayData(['Row' => $row]));
+        $table->push(ArrayData::create(['Row' => $row]));
       }
     }
 
@@ -125,36 +125,36 @@ class ElementResponsiveTable extends BaseElement
   public function getAccordionTable()
   {
     $rowNames = $this->TableRows();
-    $table = new ArrayList();
+    $table = ArrayList::create();
 
     #loop through Columns
     foreach ($this->TableColumns()->sort('Sort') as $columnKey => $column) {
       #create new row
-      $row = new ArrayList();
+      $row = ArrayList::create();
       # including row with column headings...
-      $row->push(new ArrayData(['Heading' => $column->Heading]));
+      $row->push(ArrayData::create(['Heading' => $column->Heading]));
       #loop through Column Cells
       foreach ($column->TableCells()->sort('Sort') as $cellKey => $cellValue) {
         # only include cells that are with same index of row
-        $row->push(new ArrayData(['Value' => $cellValue->Content, 'RowName' => $rowNames[$cellKey]->Name]));
+        $row->push(ArrayData::create(['Value' => $cellValue->Content, 'RowName' => $rowNames[$cellKey]->Name]));
       }
-      $table->push(new ArrayData(['Row' => $row]));
+      $table->push(ArrayData::create(['Row' => $row]));
     }
     return $table;
   }
 
   public function columnHeadingsRow()
   {
-    $table = new ArrayList();
-    $row = new ArrayList();
+    $table = ArrayList::create();
+    $row = ArrayList::create();
 
     #pushing first value as empty to account for row name column
-    $row->push(new ArrayData(['Value' => '']));
+    $row->push(ArrayData::create(['Value' => '']));
     foreach ($this->TableColumns() as $columnKey => $column) {
       # including row with column headings...
-      $row->push(new ArrayData(['Value' => $column->Heading]));
+      $row->push(ArrayData::create(['Value' => $column->Heading]));
     }
-    $table->push(new ArrayData(['Row' => $row]));
+    $table->push(ArrayData::create(['Row' => $row]));
 
     return $table;
   }
